@@ -9,8 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({AnimalInfo}) {
       // define association here
+      this.hasMany(AnimalInfo, {foreignKey: 'userId'})
+    }
+
+    toJSON(){
+      return {...this.get(), id: undefined}
     }
   }
   Users.init({
@@ -30,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    phonenumber: {
+    phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -38,12 +43,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    referrence_no: {
-      type: DataTypes.STRING,
-      allowNull: false
+    referrenceNo: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     active: DataTypes.BOOLEAN,
-    roles: {
+    role: {
       type: DataTypes.STRING,
       allowNull: false
     }

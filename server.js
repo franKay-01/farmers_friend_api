@@ -8,7 +8,7 @@ const server = http.createServer(app);
 server.listen({port: PORT}, async(req,res) => {
   console.log(`Server running on PORT ${PORT}`)
   // await sequelize.sync({ force: true});
-  await sequelize.sync();
+  await sequelize.authenticate();
   console.log("DB Synced")
 });
 
