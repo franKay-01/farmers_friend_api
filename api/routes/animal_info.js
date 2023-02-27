@@ -2,8 +2,24 @@ const express = require('express');
 const router = express.Router();
 const {Users, AnimalInfo} = require('../../models');
 
-router.get('/', (req, res, next) => {
-    res.status(200).json({message:"ANIMAL INFO"})
+router.get('/', async (req, res, next) => {
+  try{
+    const animals = await AnimalInfo.findAll({
+      // where: {userId: 1},
+      include: ['users']
+    })
+    return res.json({
+      animals: animals
+    })
+  }catch(err){
+    console.log(err)
+    res.status(err.status || 500)
+    res.json({
+      error: {
+        message: err.message
+      }
+    })
+  }
 })
 
 router.post('/', async (req, res, next) => {
