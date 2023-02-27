@@ -13,9 +13,43 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsTo(Users, {foreignKey: 'userId'})
     }
+
+    toJSON(){
+      return {...this.get(), id: undefined, userId: undefined}
+    }
   }
   AnimalInfo.init({
-    type: DataTypes.STRING
+    animalType: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    dob: {
+      type: DataTypes.DATEONLY
+    },
+    cageNumber:{
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    referenceNo: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    characteristics: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {
     sequelize,
     tableName: 'animalInfo',

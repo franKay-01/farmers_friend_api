@@ -47,7 +47,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    active: DataTypes.BOOLEAN,
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
     role: {
       type: DataTypes.STRING,
       allowNull: false

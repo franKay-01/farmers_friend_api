@@ -1,37 +1,50 @@
 const express = require('express');
 const router = express.Router();
+const {Users, AnimalInfo} = require('../../models');
 
 router.get('/', (req, res, next) => {
     res.status(200).json({message:"ANIMAL INFO"})
 })
 
-router.post('/', (req, res, next) => {
-    const animalInfo = {
-        name: req.body.name
-    }
-    res.status(200).json({message:"ANIMAL INFO"})
+router.post('/', async (req, res, next) => {
+  const {referrenceNo, animalType, dob, cageNumber, characteristics, gender} = req.body;
+  try{
+    const user = await Users.findOne({where: { referrenceNo }})
+    const animalInfo = await AnimalInfo.create({animalType, dob, cageNumber, characteristics, gender, userId: user.id})
+    res.status(200).json({
+      message:"animal INFO",
+      user: animalInfo
+    })
+  }catch(err){
+    res.status(err.status || 500)
+    res.json({
+      error: {
+        message: err.message
+      }
+    })
+  }
 })
 
 router.get('/:id', (req, res, next) => {
-    const animalId = req.params.id;
-    res.status(200).json({
-        message: `ANIMAL INFO`,
-        id: animalId
-    })
+  const animalId = req.params.id;
+  res.status(200).json({
+    message: `ANIMAL INFO`,
+    id: animalId
+  })
 })
 
 router.patch('/:id', (req, res, next) => {
-    const animalId = req.params.id;
-    res.status(200).json({
-        message: `Updated animal record`
-    })
+  const animalId = req.params.id;
+  res.status(200).json({
+    message: `Updated animal record`
+  })
 })
 
 router.delete('/:id', (req, res, next) => {
-    const animalId = req.params.id;
-    res.status(200).json({
-        message: `Updated animal record`
-    })
+  const animalId = req.params.id;
+  res.status(200).json({
+    message: `Updated animal record`
+  })
 })
 
 module.exports = router;

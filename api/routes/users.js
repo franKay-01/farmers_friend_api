@@ -20,13 +20,13 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  const {firstname, lastname, email, phonenumber, password} = req.body;
+  const {firstname, lastname, email, phoneNumber, password} = req.body;
   try{
     const randomNumber = Math.floor(Math.random() * 10000);
     const username = firstname.concat(randomNumber);
-    const roles = 'admin';
+    const role = 'admin';
 
-    const user = await Users.create({firstname, lastname, email, phonenumber, password, username, roles})
+    const user = await Users.create({firstname, lastname, email, phoneNumber, password, username, role})
     res.status(200).json({
       message:"user INFO",
       user: user
@@ -42,12 +42,12 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/:referrence_no', async (req, res, next) => {
-  const referrence_no = req.params.referrence_no;
+  const referrenceNo = req.params.referrence_no;
   try{
     const user = await Users.findOne({
-      where: { referrence_no }
+      where: { referrenceNo }
     })
-    
+
     return res.json({
       users: user
     })
