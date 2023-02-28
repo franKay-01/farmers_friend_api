@@ -23,13 +23,13 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  const {referrenceNo, animalType, dob, cageNumber, characteristics, gender} = req.body;
+  const {referenceNo, animalType, dob, cageNumber, characteristics, gender} = req.body;
   try{
-    const user = await Users.findOne({where: { referrenceNo }})
+    const user = await Users.findOne({where: { referenceNo }})
     const animalInfo = await AnimalInfo.create({animalType, dob, cageNumber, characteristics, gender, userId: user.id})
     res.status(200).json({
       message:"animal INFO",
-      user: animalInfo
+      animal: animalInfo
     })
   }catch(err){
     res.status(err.status || 500)
@@ -41,12 +41,25 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', (req, res, next) => {
-  const animalId = req.params.id;
-  res.status(200).json({
-    message: `ANIMAL INFO`,
-    id: animalId
-  })
+router.get('/:referenceNo', async (req, res, next) => {
+  const referenceNo = req.params.referenceNo;
+  try{
+    const animal = await AnimalInfo.findOne({
+      where: { referenceNo },
+      include: ['users']
+    })
+
+    return res.json({
+      animal: animal
+    })
+  }catch(err){
+    res.status(err.status || 500)
+    res.json({
+      error: {
+        message: err.message
+      }
+    })
+  }
 })
 
 router.patch('/:id', (req, res, next) => {

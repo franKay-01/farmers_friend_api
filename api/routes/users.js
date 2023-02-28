@@ -41,11 +41,11 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/:referrence_no', async (req, res, next) => {
-  const referrenceNo = req.params.referrence_no;
+router.get('/:reference_no', async (req, res, next) => {
+  const referenceNo = req.params.reference_no;
   try{
     const user = await Users.findOne({
-      where: { referrenceNo }
+      where: { referenceNo }
     })
 
     return res.json({

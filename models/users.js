@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    referrenceNo: {
+    referenceNo: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
